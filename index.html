@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#64172f">
+  <meta name="description" content="Una carta de cumpleaños para nini, con todo mi cariño.">
+  <title>Felizz cumpleañosh mi bebe hemoshaa, tiamu mushoo nini</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --paper: #64172f;
+      --ink: #f3eee9;
+      --muted: #c0b9b4;
+      --wine: #efa4a3;
+      --rose: #e8aaa2;
+      --leaf: #b7c9ac;
+      --rule: rgba(243, 238, 233, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(125deg, #64172f 0%, #902c45 32%, #7d3852 58%, #244a45 100%);
+      background-size: 180% 180%;
+      background-position: 0% 50%;
+      animation: nebula-drift 36s ease-in-out infinite alternate;
+      font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    .floaters {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .floater {
+      position: absolute;
+      top: 0;
+      height: auto;
+      opacity: var(--flight-opacity, .46);
+      filter: drop-shadow(0 0 2px rgba(255, 238, 242, .7)) drop-shadow(0 0 9px rgba(255, 138, 163, .45));
+      animation: pusheen-rise var(--flight-duration, 25s) linear var(--flight-delay, 0s) infinite;
+    }
+
+    .floater-one { left: 7%; width: 90px; --flight-duration: 24s; --flight-delay: -7s; }
+    .floater-two { left: 27%; width: 80px; --flight-duration: 28s; --flight-delay: -17s; }
+    .floater-three { left: 48%; width: 74px; --flight-duration: 25s; --flight-delay: -10s; }
+    .floater-four { left: 69%; width: 66px; --flight-duration: 30s; --flight-delay: -23s; }
+    .floater-five { left: 89%; width: 60px; --flight-duration: 26s; --flight-delay: -13s; }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 30px clamp(22px, 6vw, 82px) 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topline, .footline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font: 11px/1.4 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .topline { padding-bottom: 17px; border-bottom: 1px solid var(--rule); text-transform: none; }
+    .signature { color: var(--wine); font-size: 12px; letter-spacing: 0; text-transform: none; }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(290px, .96fr);
+      align-items: center;
+      gap: clamp(38px, 7vw, 94px);
+      padding: 48px 0 44px;
+    }
+
+    .copy { max-width: 510px; animation: arrive .8s ease-out both; }
+    .eyebrow {
+      margin: 0 0 20px;
+      color: var(--leaf);
+      font: 11px/1.4 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    h1 {
+      max-width: 560px;
+      margin: 0;
+      font-size: 52px;
+      font-weight: 400;
+      line-height: .98;
+    }
+
+    h1 span {
+      color: var(--wine);
+      font-style: italic;
+      animation: heart-glow 2.8s ease-in-out infinite;
+      text-shadow: 0 0 22px rgba(239, 164, 163, .34);
+    }
+    .intro {
+      max-width: 470px;
+      margin: 20px 0 0;
+      padding-left: 16px;
+      border-left: 2px solid rgba(239, 164, 163, .62);
+      color: #d9d3ce;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 26px;
+      color: var(--muted);
+      font: 12px/1.4 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .date::before { width: 34px; height: 1px; background: var(--rose); content: ""; }
+
+    .music-player { margin-top: 22px; }
+    .music-title {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font: 12px/1.4 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+    .music-player audio { display: block; width: min(100%, 360px); }
+
+    .actions { position: relative; display: flex; flex-wrap: wrap; gap: 12px; width: fit-content; max-width: 100%; margin-top: 30px; }
+
+    .heart-burst { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
+    .heart-particle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: var(--wine);
+      font: 22px/1 "Segoe UI", sans-serif;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.25);
+    }
+    .heart-burst.is-active .heart-particle { animation: heart-pop 1.8s cubic-bezier(.16, .75, .3, 1) var(--delay) both; }
+
+    .letter-button {
+      min-height: 48px;
+      margin-top: 0;
+      padding: 0 20px;
+      border: 1px solid var(--wine);
+      border-radius: 2px;
+      color: #251e20;
+      background: var(--wine);
+      font: 13px "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .letter-button:hover { color: var(--wine); background: transparent; transform: translateY(-2px); }
+    .letter-button:focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
+
+    .music-button {
+      min-height: 48px;
+      padding: 0 16px;
+      border: 1px solid rgba(243, 238, 233, .35);
+      border-radius: 2px;
+      color: var(--ink);
+      background: transparent;
+      font: 13px "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: border-color .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .music-button:hover { border-color: var(--wine); color: var(--wine); transform: translateY(-2px); }
+    .music-button:focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
+
+    .letter {
+      position: relative;
+      overflow: hidden;
+      max-width: 430px;
+      margin-top: 24px;
+      padding: 19px 22px 20px;
+      border-left: 3px solid var(--rose);
+      background: linear-gradient(115deg, rgba(232, 170, 162, .14), rgba(232, 218, 226, .035));
+      box-shadow: 0 14px 42px rgba(0, 0, 0, .2);
+      animation: letter-reveal .65s cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .letter::after {
+      position: absolute;
+      top: -28px;
+      right: 8px;
+      color: rgba(239, 164, 163, .09);
+      content: "♥";
+      font: 120px/1 "Segoe UI", sans-serif;
+      pointer-events: none;
+      transform: rotate(12deg);
+    }
+
+    .letter[hidden] { display: none; }
+    .letter p { position: relative; z-index: 1; margin: 0; color: #e3dcd7; font-size: 16px; line-height: 1.7; }
+    .letter p + p { margin-top: 11px; }
+    .letter .signoff { color: var(--wine); font-style: italic; }
+
+    .portrait-wrap {
+      position: relative;
+      width: min(100%, 330px);
+      justify-self: center;
+      animation: arrive .9s .12s ease-out both;
+    }
+
+    .portrait-wrap::before {
+      position: absolute;
+      z-index: -1;
+      inset: 17px -17px -17px 17px;
+      border: 1px solid rgba(239, 164, 163, .46);
+      content: "";
+    }
+
+    .portrait {
+      display: block;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      background: #343535;
+      filter: drop-shadow(0 14px 28px rgba(239, 164, 163, .14));
+    }
+
+    .caption {
+      position: absolute;
+      right: -18px;
+      bottom: 24px;
+      width: 120px;
+      color: var(--wine);
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.35;
+      transform: rotate(-5deg);
+    }
+
+    .footline { gap: 10px; justify-content: center; padding-top: 15px; border-top: 1px solid var(--rule); letter-spacing: 0; text-align: center; text-transform: none; }
+    .footer-heart { align-self: center; color: var(--wine); flex: 0 0 auto; font: 15px/1 "Segoe UI", sans-serif; }
+
+    @keyframes nebula-drift {
+      from { background-position: 0% 50%; }
+      to { background-position: 100% 50%; }
+    }
+
+    @keyframes pusheen-rise {
+      0% { opacity: 0; transform: translate3d(-10px, calc(100vh + 150px), 0) rotate(-12deg); }
+      14%, 84% { opacity: var(--flight-opacity, .46); }
+      100% { opacity: 0; transform: translate3d(14px, -180px, 0) rotate(12deg); }
+    }
+
+    @keyframes heart-glow {
+      0%, 100% { text-shadow: 0 0 16px rgba(239, 164, 163, .25); }
+      50% { text-shadow: 0 0 32px rgba(239, 164, 163, .62); }
+    }
+
+    @keyframes letter-reveal {
+      from { opacity: 0; transform: translateY(18px) scale(.96); }
+      70% { opacity: 1; transform: translateY(-3px) scale(1.01); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes heart-pop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.25); }
+      14% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(1); }
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(13px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 720px) {
+      .page { padding-top: 22px; }
+      .floater { --flight-opacity: .3; }
+      .floater-one { left: 5%; width: 62px; }
+      .floater-two { left: 25%; width: 56px; }
+      .floater-three { left: 47%; width: 54px; }
+      .floater-four { left: 68%; width: 50px; }
+      .floater-five { left: 87%; width: 52px; }
+      main { grid-template-columns: 1fr; gap: 38px; padding: 54px 0 42px; }
+      .copy { max-width: 560px; }
+      h1 { font-size: 38px; }
+      .portrait-wrap { width: min(78%, 370px); margin-right: 12px; }
+      .caption { right: -30px; }
+      .footline { align-items: flex-start; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 34px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="floaters" aria-hidden="true">
+    <img class="floater floater-one" src="assets/pusheen.png" alt="">
+    <img class="floater floater-two" src="assets/pusheen.png" alt="">
+    <img class="floater floater-three" src="assets/pusheen.png" alt="">
+    <img class="floater floater-four" src="assets/pusheen.png" alt="">
+    <img class="floater floater-five" src="assets/pusheen.png" alt="">
+  </div>
+  <div class="page">
+    <header class="topline">
+      <span>Este dia es el indicado para ti mi bebe</span>
+      <span class="signature">Con todo mi amorchito mi bebe</span>
+    </header>
+
+    <main>
+      <section class="copy" aria-labelledby="greeting">
+        <p class="eyebrow">5 de Octubre de 2009. Hace 17 años nacio esa bebe</p>
+        <h1 id="greeting">Felizz cumpleañosh<br>mi bebe hemoshaa,<br><span>tiamu mushoo nini</span></h1>
+        <p class="intro">MI BEBE HEMOSHAAA, feliz cumpleañoshh mamolchh, esta cartita es para que veash lo especial que es esta fecha para tii y para que veash que es tambien importante para mi ya que es el cumpleañosh de mi futura esposa y la madre de nuestros hijitos 🤧💝</p>
+        <p class="date">Para ti con todo mi corazon mi bebe hemosha</p>
+        <div class="actions">
+          <button class="letter-button" type="button" aria-expanded="false" aria-controls="birthday-letter">Abrir mi carta</button>
+          <button class="music-button" type="button" aria-expanded="false" aria-controls="music-player">Mostrar Musica</button>
+          <span class="heart-burst" aria-hidden="true"></span>
+        </div>
+        <div class="music-player" id="music-player" hidden>
+          <p class="music-title">Cumpleaños Feliz</p>
+          <audio id="birthday-audio" controls preload="none" aria-label="Reproductor de Cumpleaños Feliz">
+            <source src="assets/cumpleanos-feliz.mp3" type="audio/mpeg">
+            Tu navegador no puede reproducir este audio.
+          </audio>
+        </div>
+        <div class="letter" id="birthday-letter" hidden>
+          <p>Mi niña hemoshaaa. Feliz cumpleañosh mamorshito, elesh una bebe toda peshosha y linda, esa bebe cumple 17 añitos desde su nacimiento 🤧💝</p>
+          <p>MAMORSHHH te quielo felicitar primerooo por ser la mejor novia del mundooo, esa bebe que cumple años hoyy y la quielo felicitar poque cada dia que pasamosh juntos se siente un camino tan profundo y hermosho cuando mamosh avanzando paso a paso con toditoo mamolchhh.</p>
+          <p>y como cumplesh 17 mamorch aunque yo no quiela poque te me haces grande alaberga y lloro 😭🩷 puesh me toca aceptarlo y seguir adelante POQUE AUNQUE TENGASH 17 SIEMPRE VASH A SER MI NIÑITA HEMOSHA Y TIERNITAAA, elesh una cachetoncita toda hemoshaaa, aunque no nos podamos abrazar aun mamolch, te quielo apachurrar y ser TU NOVIESHITO POR TODA NUESTRAS VIDAS.</p>
+          <p class="signoff">Felizz cumpleañosshhh mi bebe hemoshaaa</p>
+        </div>
+      </section>
+
+      <figure class="portrait-wrap">
+        <img class="portrait" src="assets/nini.webp" alt="Retrato de nini en blanco y negro" fetchpriority="high">
+        <figcaption class="caption">Esa nini toda hemosha cumple 17 añitos 🤧</figcaption>
+      </figure>
+    </main>
+
+    <footer class="footline">
+      <span class="footer-heart" aria-hidden="true">♥</span>
+      <span>Elesh la coshita mas importante en mi vida corazon, esto es para que sepash que aunque igualmente cumplamosh meses de novios, tampoco me voy a olvidar de una fecha tan importante para ti mi bebe hemosha</span>
+      <span class="footer-heart" aria-hidden="true">♥</span>
+    </footer>
+  </div>
+
+  <script>
+    const letterButton = document.querySelector('.letter-button');
+    const birthdayLetter = document.querySelector('#birthday-letter');
+    const musicButton = document.querySelector('.music-button');
+    const musicPlayer = document.querySelector('#music-player');
+    const birthdayAudio = document.querySelector('#birthday-audio');
+    const heartBurst = document.querySelector('.heart-burst');
+
+    const launchHeartBurst = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const paths = [
+        [-72, -48], [-42, -82], [0, -98], [42, -78],
+        [76, -46], [68, 8], [34, 48], [-32, 54], [-72, 12]
+      ];
+      const particles = paths.map(([x, y], index) => {
+        const particle = document.createElement('span');
+        particle.className = 'heart-particle';
+        particle.textContent = index % 3 === 0 ? '♡' : '♥';
+        particle.style.setProperty('--move-x', `${x}px`);
+        particle.style.setProperty('--move-y', `${y}px`);
+        particle.style.setProperty('--delay', `${index * 24}ms`);
+        return particle;
+      });
+      heartBurst.replaceChildren(...particles);
+      heartBurst.classList.remove('is-active');
+      void heartBurst.offsetWidth;
+      heartBurst.classList.add('is-active');
+    };
+
+    letterButton.addEventListener('click', () => {
+      const isExpanded = letterButton.getAttribute('aria-expanded') === 'true';
+      letterButton.setAttribute('aria-expanded', String(!isExpanded));
+      birthdayLetter.hidden = isExpanded;
+      letterButton.textContent = isExpanded ? 'Abrir mi carta' : 'Cerrar mi carta';
+      if (!isExpanded) launchHeartBurst();
+    });
+
+    musicButton.addEventListener('click', () => {
+      const shouldShowPlayer = musicPlayer.hidden;
+      musicPlayer.hidden = !shouldShowPlayer;
+      musicButton.setAttribute('aria-expanded', String(shouldShowPlayer));
+      musicButton.textContent = shouldShowPlayer ? 'Ocultar Musica' : 'Mostrar Musica';
+      if (!shouldShowPlayer) birthdayAudio.pause();
+    });
+  </script>
+</body>
+</html>
